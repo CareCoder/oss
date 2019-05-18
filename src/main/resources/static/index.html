@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <title>OSS系统</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon"/>
+    <link rel="stylesheet" href="/lib/layui/css/layui.css">
+    <link rel="stylesheet" href="/css/okadmin.css">
+    <link rel="stylesheet" href="/lib/nprogress/nprogress.css">
+</head>
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+    <!--头部导航-->
+    <div class="layui-header">
+        <div class="layui-logo">OSS</div>
+    </div>
+    <!--左侧导航区域-->
+    <div class="layui-side layui-bg-black">
+        <div class="layui-side-scroll">
+            <ul class="layui-nav layui-nav-tree" lay-shrink="all" lay-filter="">
+                <li class="layui-nav-item">
+                    <a class="" href="javascript:;">
+                        <i class="layui-icon">&#xe62a;</i> 基础设置
+                    </a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="javascript:;" path="/docker_source/list.html" tab-id="1-1"><i class="iconfont icon-dianliyonghuzongshu"></i>配置docker源</a></dd>
+                    </dl>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!-- 内容主体区域 -->
+    <div class="content-body">
+        <div class="layui-tab layui-tab-brief" lay-filter="ok-tab" lay-allowClose="true">
+            <ul class="layui-tab-title">
+                <li class="layui-this"><i class="layui-icon">&#xe68e;</i> 控制台</li>
+            </ul>
+            <div class="layui-tab-content">
+                <div class="layui-tab-item layui-show">
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--底部信息-->
+    <div class="layui-footer">
+    </div>
+</div>
+<!--js逻辑-->
+<script src="/lib/layui/layui.js"></script>
+<script src="/lib/nprogress/nprogress.js"></script>
+<script src="/js/okadmin.js"></script>
+
+<script>
+</script>
+</body>
+</html>
