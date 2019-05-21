@@ -39,7 +39,7 @@ public class DockerSourceController {
         return PageResponse.build(list.size(), list);
     }
 
-    @PostMapping("addOrEdit")
+    @PostMapping("/addOrEdit")
     @ResponseBody
     public void addOrEdit(DockerSource dockerSource) {
         dockerSourceService.addOrEdit(dockerSource);
