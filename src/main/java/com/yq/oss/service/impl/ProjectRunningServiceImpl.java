@@ -1,55 +1,35 @@
 package com.yq.oss.service.impl;
 
-import com.yq.oss.entity.dto.JenkinsSource;
+import com.offbytwo.jenkins.JenkinsServer;
+import com.yq.oss.entity.domain.CustomizedJob;
 import com.yq.oss.entity.vo.ProjectSourceDO;
+import com.yq.oss.enums.JenkinsJobStatus;
 import com.yq.oss.service.ProjectRunningService;
-import com.yq.oss.utils.HttpUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.Base64;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
 @Service
 public class ProjectRunningServiceImpl implements ProjectRunningService {
+    public static Map<Long, CustomizedJob> CUSTOMIZED_JENKINS_JOBS = new ConcurrentHashMap<>();
     @Override
     public void run(ProjectSourceDO projectSourceDO) {
-        JenkinsSource jenkinsSource = projectSourceDO.getJenkinsSource();
-        String jenkinsTiggerUrl = buildJenkinsTiggerUrl(jenkinsSource.getHost(), jenkinsSource.getProjectName());
-        Map<String, String> params = buildJenkinsParams(projectSourceDO);
-        Map<String, String> headers = buildJenkinsHeader(projectSourceDO.getJenkinsSource());
-        try {
-            HttpUtils.httpGet(jenkinsTiggerUrl, params, headers);
-        } catch (Exception e) {
-            log.info("ProjectRunningServiceImpl run error", e);
-        }
+        CUSTOMIZED_JENKINS_JOBS.put(projectSourceDO.getId(), CustomizedJob.buildDefault(projectSourceDO, JenkinsJobStatus.NOT_RUNNING));
     }
 
-    private Map<String, String> buildJenkinsHeader(JenkinsSource jenkinsSource) {
-        Map<String, String> headers = new HashMap<>();
-        String str = jenkinsSource.getUsername() + ":" + jenkinsSource.getPassword();
-        headers.put("Authorization", "Basic " + Base64.getEncoder().encodeToString(str.getBytes()));
-        return headers;
+    @Override
+    public void setJobJenkinsServer(Long id, JenkinsServer jenkinsServer) {
+        CustomizedJob job = CUSTOMIZED_JENKINS_JOBS.get(id);
+        job.setJenkinsServer(jenkinsServer);
+        job.setJenkinsJobStatus(JenkinsJobStatus.JENKINS_RUNNING);
     }
 
-    private Map<String,String> buildJenkinsParams(ProjectSourceDO projectSourceDO) {
-        Map<String, String> params = new HashMap<>();
-        params.put("token", projectSourceDO.getJenkinsSource().getToken());
-        params.put("version", projectSourceDO.getVersion());
-        params.put("address", projectSourceDO.getGitAddress());
-        params.put("image", projectSourceDO.getImageName() + ":" + projectSourceDO.getImageTag());
-        return params;
-    }
-
-    private String buildJenkinsTiggerUrl(String jenkinsHost, String jenkinsProjectName) {
-        if (!jenkinsHost.startsWith("http")) {
-            jenkinsHost = "http://" + jenkinsHost;
-        }
-        return jenkinsHost +
-                "/job/" +
-                jenkinsProjectName +
-                "/buildWithParameters";
+    @Override
+    public void jenkinsBuildComplete(Long id) {
+        CustomizedJob job = CUSTOMIZED_JENKINS_JOBS.get(id);
+        job.setJenkinsJobStatus(JenkinsJobStatus.JENKINS_COMPLETE);
     }
 }
