@@ -17,4 +17,6 @@ public interface ProjectSourceService {
     void delete(Long id);
 
     ProjectSource findById(Long id);
+
+    ProjectSourceDO findDOById(Long id);
 }

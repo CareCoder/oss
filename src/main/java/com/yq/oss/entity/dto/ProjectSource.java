@@ -19,6 +19,8 @@ public class ProjectSource {
 
     private String imageName;
 
+    private String imageTag;
+
     private String env;
 
     private Integer port;

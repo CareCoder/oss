@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Project源列表</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="/lib/layui/css/layui.css">
+    <link rel="stylesheet" href="/css/scroll-bar.css">
+    <link rel="stylesheet" href="/css/sub-page.css">
+    <link rel="stylesheet" href="/lib/nprogress/nprogress.css">
+</head>
+<body>
+<div class="ok-body">
+    <!--面包屑导航区域-->
+    <div class="ok-body-breadcrumb">
+            <span class="layui-breadcrumb">
+                <a><cite>首页</cite></a>
+                <a><cite>Project运行</cite></a>
+            </span>
+        <a class="layui-btn layui-btn-small" href="javascript:location.replace(location.href);" title="刷新">
+            <i class="layui-icon layui-icon-refresh"></i>
+        </a>
+    </div>
+    <!--数据表格-->
+    <table class="layui-hide" id="tableId" lay-filter="tableFilter"></table>
+</div>
+<!--js逻辑-->
+<script src="/lib/layui/layui.js"></script>
+<script src="/lib/nprogress/nprogress.js"></script>
+<script>
+    NProgress.start();
+    window.onload = function () {
+        NProgress.done();
+    }
+    layui.use(['element', 'table', 'form', 'jquery', 'laydate'], function () {
+        var element = layui.element;
+        var table = layui.table;
+        var form = layui.form;
+        var $ = layui.jquery;
+        var laydate = layui.laydate;
+
+        table.render({
+            elem: '#tableId',
+            url: '/project_source/list',
+            limit: 10,
+            page: true,
+            cols: [
+                [
+                {field: 'id', title: 'ID', width: 80},
+                {field: 'name', title: '名称', width: 150},
+                {title: '版本', width: 300, templet: '#versionTpl'},
+                {title: '标签', width: 150, templet: '#imageTagTpl'},
+                {title: '操作', width: 150, templet: '#operationTpl', align: 'center'}
+            ]
+            ],
+            done: function (res, curr, count) {
+                $("#countNum").text(count);
+            }
+        });
+
+        table.on('tool(tableFilter)', function (obj) {
+            var data = obj.data;
+            var layEvent = obj.event;
+            if (layEvent === 'start') {
+                $.ajax({
+                    url: "/project_running/run",
+                    data: {
+                        id: data.id,
+                        version: data.version,
+                        imageTag: data.imageTag
+                    },
+                    type: "POST",
+                    success: function (resp) {
+                        $(".layui-icon-refresh").click();
+                    }
+                });
+            }
+        });
+
+    })
+</script>
+<!--模板-->
+<script type="text/html" id="operationTpl">
+    <a href="javascript:;" title="启动" lay-event="start"><i class="layui-icon">&#xe623;</i></a>
+</script>
+<script type="text/html" id="versionTpl">
+    <input type="text" name="version" value="{{d.version}}" class="layui-input" style="height: 28px">
+</script>
+<script type="text/html" id="imageTagTpl">
+    <input type="text" name="imageTag" value="{{d.imageTag}}" class="layui-input" style="height: 28px">
+</script>
+</body>
+</html>

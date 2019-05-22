@@ -47,4 +47,9 @@ public class ProjectSourceServiceImpl implements ProjectSourceService {
     public ProjectSource findById(Long id) {
         return projectSourceMapper.selectById(id);
     }
+
+    @Override
+    public ProjectSourceDO findDOById(Long id) {
+        return projectSourceMapper.findDOById(id);
+    }
 }

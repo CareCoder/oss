@@ -18,4 +18,8 @@ public class JenkinsSource {
     private String projectName;
 
     private String token;
+
+    private String username;
+
+    private String password;
 }

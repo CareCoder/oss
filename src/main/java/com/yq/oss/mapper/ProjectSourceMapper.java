@@ -3,10 +3,7 @@ package com.yq.oss.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.yq.oss.entity.dto.ProjectSource;
 import com.yq.oss.entity.vo.ProjectSourceDO;
-import org.apache.ibatis.annotations.One;
-import org.apache.ibatis.annotations.Result;
-import org.apache.ibatis.annotations.Results;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -25,4 +22,8 @@ public interface ProjectSourceMapper extends BaseMapper<ProjectSource> {
     })
     @Select("SELECT * from project_source")
     List<ProjectSourceDO> list();
+
+    @ResultMap("ProjectSourceDO")
+    @Select("SELECT * from project_source where id = #{id}")
+    ProjectSourceDO findDOById(Long id);
 }

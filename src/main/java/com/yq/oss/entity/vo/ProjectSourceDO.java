@@ -17,6 +17,8 @@ public class ProjectSourceDO {
 
     private String imageName;
 
+    private String imageTag;
+
     private String env;
 
     private Integer port;

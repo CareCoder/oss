@@ -43,9 +43,15 @@
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">镜像名字</label>
+            <label class="layui-form-label">镜像仓库地址</label>
             <div class="layui-input-block">
-                <input type="text" name="imageName" placeholder="镜像名字" autocomplete="off" class="layui-input">
+                <input type="text" name="imageName" placeholder="镜像仓库地址" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">镜像标签</label>
+            <div class="layui-input-block">
+                <input type="text" name="imageTag" placeholder="镜像标签" autocomplete="off" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
@@ -97,6 +103,7 @@
         $("input[name='gitAddress']").val('[[${projectSource?.gitAddress}]]');
         $("input[name='version']").val('[[${projectSource?.version}]]');
         $("input[name='imageName']").val('[[${projectSource?.imageName}]]');
+        $("input[name='imageTag']").val('[[${projectSource?.imageTag}]]');
         $("input[name='env']").val('[[${projectSource?.env}]]');
         $("input[name='port']").val('[[${projectSource?.port}]]');
         var dockerSourceId = '[[${projectSource?.dockerSourceId}]]';
