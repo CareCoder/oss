@@ -16,6 +16,12 @@ public class CustomizedJob {
 
     private DockerClient dockerClient;
 
+    /**
+     * 这个任务所对应的容器id
+     * 理论上来说不需要这个id也可以完成业务需求
+     * 不过需要重新获取docker上面的container和images的快照
+     * 这样可以增加性能
+     */
     private String containerId;
 
     public static CustomizedJob buildDefault(ProjectSourceDO projectSourceDO, JobStatus status) {

@@ -19,4 +19,6 @@ public interface ProjectSourceService {
     ProjectSource findById(Long id);
 
     ProjectSourceDO findDOById(Long id);
+
+    List<ProjectSourceDO> listDetail();
 }

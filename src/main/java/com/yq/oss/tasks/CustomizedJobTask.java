@@ -15,7 +15,6 @@ import com.yq.oss.entity.dto.JenkinsSource;
 import com.yq.oss.entity.vo.ProjectSourceDO;
 import com.yq.oss.enums.JobStatus;
 import com.yq.oss.service.ProjectRunningService;
-import com.yq.oss.service.impl.ProjectRunningServiceImpl;
 import com.yq.oss.utils.DockerClientUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +34,7 @@ public class CustomizedJobTask {
 
     @Scheduled(fixedRate = 5000L)
     public void executeCustomizedJobTask() {
-        Collection<CustomizedJob> jobs = ProjectRunningServiceImpl.CUSTOMIZED_JENKINS_JOBS.values();
+        Collection<CustomizedJob> jobs = projectRunningService.fetchCustomizedJob();
         jobs.forEach(this::executeCustomizedJob);
     }
 
@@ -43,7 +42,7 @@ public class CustomizedJobTask {
         ProjectSourceDO projectSourceDO = job.getProjectSourceDO();
         log.info("executeCustomizedJob id = {}, status = {}", projectSourceDO.getId(), job.getJenkinsJobStatus());
         try {
-            if (job.getJenkinsJobStatus() == JobStatus.NOT_RUNNING) {
+            if (job.getJenkinsJobStatus() == JobStatus.READY_RUNNING) {
                 //未启动,则创建jenkins任务
                 runJenkinsBuild(job);
             } else if (job.getJenkinsJobStatus() == JobStatus.JENKINS_RUNNING) {
@@ -59,6 +58,7 @@ public class CustomizedJobTask {
         } catch (Exception e) {
             log.error("executeCustomizedJob error", e);
         }
+//        projectRunningService.dockerContainerStartComplete(job.getProjectSourceDO().getId());
     }
 
     private void checkDockerContainer(CustomizedJob job) {

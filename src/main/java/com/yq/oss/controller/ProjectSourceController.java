@@ -38,6 +38,13 @@ public class ProjectSourceController {
         return PageResponse.build(list.size(), list);
     }
 
+    @GetMapping("/list/detail")
+    @ResponseBody
+    public PageResponse<ProjectSourceDO> listDetail() {
+        List<ProjectSourceDO> list = projectSourceService.listDetail();
+        return PageResponse.build(list.size(), list);
+    }
+
     @PostMapping("/addOrEdit")
     @ResponseBody
     public void addOrEdit(ProjectSource projectSource) {

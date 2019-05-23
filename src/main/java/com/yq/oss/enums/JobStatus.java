@@ -1,7 +1,7 @@
 package com.yq.oss.enums;
 
 public enum JobStatus {
-    NOT_RUNNING, //还未开始启动
+    READY_RUNNING, //还未开始启动
     JENKINS_RUNNING,// jenkins正在制作镜像
     JENKINS_COMPLETE,// jenkins制作镜像完成
     DOCKER_RUNNING,//docker正在启动

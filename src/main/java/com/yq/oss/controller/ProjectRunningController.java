@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/project_running")
@@ -40,10 +40,22 @@ public class ProjectRunningController {
         projectRunningService.run(projectSourceDO);
     }
 
+    @PostMapping("/restart")
+    @ResponseBody
+    public void restart(Long id) {
+        projectRunningService.restart(id);
+    }
+
+    @PostMapping("/stop")
+    @ResponseBody
+    public void stop(Long id) {
+        projectRunningService.stop(id);
+    }
+
     @GetMapping("/listJobStatus")
     @ResponseBody
-    public List<CustomizedJobVO> listJobStatus() {
-        return projectRunningService.listJobStatus();
+    public Map<Long, CustomizedJobVO> listJobStatus() {
+        return projectRunningService.fetchJobStatusMap();
     }
 
 }

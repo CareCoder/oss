@@ -2,11 +2,11 @@ package com.yq.oss.entity.vo;
 
 import com.yq.oss.entity.dto.DockerSource;
 import com.yq.oss.entity.dto.JenkinsSource;
+import com.yq.oss.enums.JobStatus;
 import lombok.Data;
 
 @Data
 public class ProjectSourceDO {
-//    private ProjectSource projectSource;
     private Long id;
 
     private String name;
@@ -26,6 +26,8 @@ public class ProjectSourceDO {
     private DockerSource dockerSource;
 
     private JenkinsSource jenkinsSource;
+
+    private JobStatus jobStatus;
 
     public String fetchRepoTags() {
         return imageName + ":" + imageTag;

@@ -41,7 +41,7 @@
 
         table.render({
             elem: '#tableId',
-            url: '/project_source/list',
+            url: '/project_source/list/detail',
             limit: 10,
             page: true,
             cols: [
@@ -50,7 +50,8 @@
                 {field: 'name', title: '名称', width: 150},
                 {title: '版本', width: 300, templet: '#versionTpl'},
                 {title: '标签', width: 150, templet: '#imageTagTpl'},
-                {title: '操作', width: 150, templet: '#operationTpl', align: 'center'}
+                {title: '操作', width: 75, templet: '#operationTpl', align: 'center'},
+                {title: '操作', width: 75, templet: '#operationTpl2', align: 'center'}
             ]
             ],
             done: function (res, curr, count) {
@@ -74,6 +75,28 @@
                         $(".layui-icon-refresh").click();
                     }
                 });
+            }else if (layEvent === 'restart') {
+                $.ajax({
+                    url: "/project_running/restart",
+                    data: {
+                        id: data.id,
+                    },
+                    type: "POST",
+                    success: function (resp) {
+                        $(".layui-icon-refresh").click();
+                    }
+                });
+            }else if (layEvent === 'stop') {
+                $.ajax({
+                    url: "/project_running/stop",
+                    data: {
+                        id: data.id,
+                    },
+                    type: "POST",
+                    success: function (resp) {
+                        $(".layui-icon-refresh").click();
+                    }
+                });
             }
         });
 
@@ -81,7 +104,22 @@
 </script>
 <!--模板-->
 <script type="text/html" id="operationTpl">
-    <a href="javascript:;" title="启动" lay-event="start"><i class="layui-icon">&#xe623;</i></a>
+    {{#
+        console.log(d.jobStatus);
+        if(d.jobStatus == null){
+            return "<a href='javascript:;' title='启动' lay-event='start'><i class='layui-icon'>&#xe623;</i></a>";
+        }
+        else if(d.jobStatus == "ALL_COMPLETE"){
+            return "<a href='javascript:;' title='重启' lay-event='restart'><i class='layui-icon'>&#xe669;</i></a>";
+        }
+        else{
+            return "<a href='javascript:;' title='启动中'><i class='layui-icon layui-anim layui-anim-rotate layui-anim-loop'>&#xe63d;</i></a>";
+        }
+    }}
+
+</script>
+<script type="text/html" id="operationTpl2">
+    <a href='javascript:;' title='尝试停止' lay-event='stop'><i class='layui-icon'>&#xe651;</i></a>
 </script>
 <script type="text/html" id="versionTpl">
     <input type="text" name="version" value="{{d.version}}" class="layui-input" style="height: 28px">
