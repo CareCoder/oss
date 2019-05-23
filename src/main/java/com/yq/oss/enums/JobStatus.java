@@ -1,6 +1,6 @@
 package com.yq.oss.enums;
 
-public enum JenkinsJobStatus {
+public enum JobStatus {
     NOT_RUNNING, //还未开始启动
     JENKINS_RUNNING,// jenkins正在制作镜像
     JENKINS_COMPLETE,// jenkins制作镜像完成

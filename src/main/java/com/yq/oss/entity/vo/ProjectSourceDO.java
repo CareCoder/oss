@@ -26,4 +26,8 @@ public class ProjectSourceDO {
     private DockerSource dockerSource;
 
     private JenkinsSource jenkinsSource;
+
+    public String fetchRepoTags() {
+        return imageName + ":" + imageTag;
+    }
 }
