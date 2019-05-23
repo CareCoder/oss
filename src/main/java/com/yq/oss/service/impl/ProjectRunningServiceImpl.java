@@ -34,10 +34,10 @@ public class ProjectRunningServiceImpl implements ProjectRunningService {
 
     @Override
     public void stop(Long projectId) {
+        CUSTOMIZED_JOBS.remove(projectId);
         CustomizedJob job = CUSTOMIZED_JOBS.get(projectId);
         DockerClient dockerClient = job.getDockerClient();
         dockerClient.stopContainerCmd(job.getContainerId()).exec();
-        CUSTOMIZED_JOBS.remove(projectId);
     }
 
     @Override
